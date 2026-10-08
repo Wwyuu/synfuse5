@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+checkpoint/
+log/
+result/
+data/yaogan/
+*.pth
+.swanlab_key
+swanlog/

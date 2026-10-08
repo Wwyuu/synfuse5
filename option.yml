@@ -1,0 +1,65 @@
+name: SYNFUSE5
+algorithm: synfuse
+nEpochs: 500
+gpu_mode: True
+save_best: True
+gpus: [0]
+threads: 4
+log_dir: ./log/
+
+seed: 123
+checkpoint: ./checkpoint
+data_dir_train: ./data/yaogan/WV3_data/train128
+data_dir_eval: ./data/yaogan/WV3_data/test128
+#data_dir_train: ./data/yaogan/WV2_data/train128
+#data_dir_eval: ./data/yaogan/WV2_data/test128
+#data_dir_train: ./data/yaogan/GF2_data/train128
+#data_dir_eval: ./data/yaogan/GF2_data/test128
+
+source_ms: ms
+source_pan: pan
+
+pretrain:
+  pretrained: False
+  pre_sr: ''
+  pre_folder: ./checkpoint/
+
+test:
+  algorithm: synfuse
+  type: test
+  data_dir: ./data/yaogan/WV3_data/test128
+  source_ms: ms
+  source_pan: pan
+  model: synfuse_4_best/bestPSNR.pth
+  save_dir: ./result/synfuse_WV3
+
+data:
+  upsacle: 4
+  batch_size: 4
+  patch_size: 32
+  data_augmentation: False
+  n_colors: 4
+  rgb_range: 255
+  normalize: False
+
+schedule:
+  lr: 5e-4
+  decay: 500
+  gamma: 0.1
+  optimizer: ADAM
+  momentum: 0.9
+  beta1: 0.9
+  beta2: 0.999
+  epsilon: 1e-8
+  alpha: 0.9
+  weight_dency: 0
+  gclip: 4
+  loss: L1
+  use_YCbCr: False
+
+# API key 用环境变量 SWANLAB_API_KEY，或 SWANLAB_API_KEY_FILE 指向的文件。不要写进仓库。
+swanlab:
+  enable: True
+  project: pansharpening
+  experiment: synfuse5
+  description: 5 stages, one joint token per pixel, window RWKV and full-resolution Mamba, WV3
